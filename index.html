@@ -1,428 +1,188 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İyi ki Doğdun Hayatımın Anlamı!</title>
-    <style>
-        @import url(https://lh7-rt.googleusercontent.com/formsz/AN7BsVCqTy55Is-N5DOSux_9okFtNF3KswfI2Vb1KcpZhVKXGKgZfA8dlQeN10veB7c6vLuRDrUuUkrG3bKHqBd1Vo5Rlbb8Llk2SGLSg_uS6V8Tnvfi61gLGZm1-9jSBHJsenVXKIvGO6f16k6sO9uUz5dWJYXw-sFE_hW7Jcx0Jae0G3Vf14X-3dDUIjRAkTFR1m8Bv7CqZnmMTLNY=w740?key=oj7s-s6HV0LaWkPQdpqjIA);
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dijital Saat & Hava Durumu</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
 
-        :root {
-            --bg-color: #fdfaff; /* Çok açık lavanta */
-            --primary-purple: #8e44ad; /* Ana Mor */
-            --dark-purple: #4a235a; /* Koyu Mürdüm (Yazı Rengi) */
-            --accent-gold: #e1c48f;
-            --heart-color: #9b59b6;
-        }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Orbitron", sans-serif;
+  }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  body {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    overflow: hidden;
+    background: radial-gradient(circle at bottom, #1a002a 0%, #000010 80%);
+  }
 
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--dark-purple);
-            overflow-x: hidden;
-        }
+  /* Yıldızlar */
+  .stars {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    box-shadow:
+      100px 200px white, 300px 400px #ff0, 500px 700px white,
+      800px 300px #0ff, 900px 600px #fff, 1200px 200px #f0f,
+      1400px 500px #0ff, 1600px 400px #fff, 1800px 600px #ff0;
+    animation: animStar 100s linear infinite;
+  }
 
-        .heart-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9999;
-        }
+  @keyframes animStar {
+    from { transform: translateY(0); }
+    to { transform: translateY(-2000px); }
+  }
 
-        .heart {
-            position: absolute;
-            font-size: 2rem;
-            color: var(--heart-color);
-            animation: fall 10s linear infinite;
-            opacity: 0.8;
-        }
+  /* RGB parlayan efekt */
+  .glow {
+    text-shadow: 0 0 20px #fff, 0 0 40px #ff00ff, 0 0 80px #00ffff;
+  }
 
-        @keyframes fall {
-            0% {
-                transform: translateY(-10vh) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(110vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
+  .clock {
+    font-size: 10vw;
+    letter-spacing: 6px;
+    text-align: center;
+    z-index: 2;
+  }
 
-        h1, h2 {
-            font-family: 'Dancing Script', cursive;
-        }
+  .date {
+    font-size: 2vw;
+    margin-top: 15px;
+    color: #00ffff;
+    text-shadow: 0 0 10px #00ffff;
+    z-index: 2;
+  }
 
-        section {
-            padding: 100px 5%;
-            text-align: center;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
+  .weather {
+    font-size: 1.8vw;
+    margin-top: 40px;
+    text-shadow: 0 0 10px #ff00ff;
+    z-index: 2;
+  }
 
-        section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+  footer {
+    position: absolute;
+    bottom: 20px;
+    font-size: 1vw;
+    color: rgba(255,255,255,0.7);
+    z-index: 2;
+  }
 
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://lh7-rt.googleusercontent.com/formsz/AN7BsVCqTy55Is-N5DOSux_9okFtNF3KswfI2Vb1KcpZhVKXGKgZfA8dlQeN10veB7c6vLuRDrUuUkrG3bKHqBd1Vo5Rlbb8Llk2SGLSg_uS6V8Tnvfi61gLGZm1-9jSBHJsenVXKIvGO6f16k6sO9uUz5dWJYXw-sFE_hW7Jcx0Jae0G3Vf14X-3dDUIjRAkTFR1m8Bv7CqZnmMTLNY=w740?key=oj7s-s6HV0LaWkPQdpqjIA') no-repeat center center/cover;
-            /* YUKARIDAKI LİNKİ KENDİ FOTOĞRAFINIZIN LİNKİYLE DEĞİŞTİRİN */
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-        }
+  /* RGB geçişli arka plan parıltısı */
+  .bg-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(270deg, #a100ff, #00ffcc, #ff00aa, #00aaff);
+    background-size: 800% 800%;
+    mix-blend-mode: overlay;
+    opacity: 0.3;
+    animation: rgbShift 20s ease infinite;
+  }
 
-        .hero h1 {
-            font-size: 5rem;
-        }
-
-        .hero p {
-            font-size: 1.5rem;
-            margin-top: 20px;
-        }
-
-        .scroll-down {
-            margin-top: 40px;
-            font-size: 1rem;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-20px);
-            }
-            60% {
-                transform: translateY(-10px);
-            }
-        }
-        
-        /* Diğer Bölümler */
-        .section-title {
-            font-size: 3.5rem;
-            color: var(--primary-purple);
-            margin-bottom: 50px;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 3px;
-            background-color: var(--accent-gold);
-            margin: 20px auto 0;
-        }
-
-        /* Hikayemiz */
-        .timeline {
-            position: relative;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .timeline::after {
-            content: '';
-            position: absolute;
-            width: 4px;
-            background-color: var(--primary-purple);
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            margin-left: -2px;
-        }
-        .timeline-container {
-            padding: 10px 40px;
-            position: relative;
-            background-color: inherit;
-            width: 50%;
-        }
-        .timeline-container.left {
-            left: 0;
-        }
-        .timeline-container.right {
-            left: 50%;
-        }
-        .timeline-container::after {
-            content: '♥';
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            right: -17px;
-            background-color: var(--bg-color);
-            border: 4px solid var(--primary-purple);
-            top: 15px;
-            border-radius: 50%;
-            z-index: 1;
-            font-size: 15px;
-            line-height: 22px;
-            color: var(--primary-purple);
-        }
-        .right::after {
-            left: -17px;
-        }
-        .timeline-content {
-            padding: 20px 30px;
-            background-color: white;
-            position: relative;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .timeline-content h3 {
-            color: var(--primary-purple);
-            font-family: 'Dancing Script', cursive;
-            font-size: 2rem;
-        }
-
-        /* Nedenler */
-        .reasons-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .reason-card {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .reason-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 25px rgba(142, 68, 173, 0.2);
-        }
-        .reason-card .icon {
-            font-size: 3rem;
-            color: var(--primary-purple);
-            margin-bottom: 15px;
-        }
-
-        /* Galeri */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 15px;
-            max-width: 1400px;
-            margin: auto;
-        }
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 8px;
-            transition: transform 0.4s ease, filter 0.4s ease;
-        }
-        .gallery-item:hover img {
-            transform: scale(1.05);
-            filter: brightness(1.1);
-        }
-
-        /* Şarkı */
-        .music-player {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 30px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .music-player iframe {
-            width: 100%;
-            height: 380px;
-            border-radius: 10px;
-        }
-
-        /* Mesaj */
-        #final-message {
-            background-color: #f3e5f5; /* Açık mor */
-        }
-        .message-box {
-            max-width: 800px;
-            margin: auto;
-            background: white;
-            padding: 40px;
-            border-radius: 10px;
-            line-height: 1.8;
-            font-size: 1.1rem;
-            text-align: left;
-        }
-        .signature {
-            text-align: right;
-            margin-top: 30px;
-            font-size: 1.5rem;
-            font-family: 'Dancing Script', cursive;
-            color: var(--primary-purple);
-        }
-    </style>
+  @keyframes rgbShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+</style>
 </head>
 <body>
+  <div class="stars"></div>
+  <div class="bg-glow"></div>
 
-    <div class="heart-container" id="heart-container"></div>
+  <div class="clock glow" id="clock">00:00:00</div>
+  <div class="date" id="date"></div>
+  <div class="weather" id="weather">🌍 Konum alınıyor...</div>
 
-    <section class="hero visible">
-        <h1>
-            İyi ki Doğdun Hayatımın Anlamı 💜 </h1>
-        <p>Bu site, sana olan aşkımın en dijital ve en sonsuz hali...</p>
-        <p class="scroll-down">Kalbimi Keşfet ↓</p>
-    </section>
+  <footer>💜 Tasarım: Hüseyin | 🌠 Dijital Evren</footer>
 
-    <section id="story">
-        <h2 class="section-title">Bizim Hikayemiz</h2>
-        <div class="timeline">
-            <div class="timeline-container left">
-                <div class="timeline-content">
-                    <h3>[11 Eylül 2025]</h3>
-                    <p>Her şeyin başladığı o gün... Seni ilk gördüğümde zamanın durduğunu hissetmiştim. O an hayatımın sonsuza dek değişeceğini biliyordum.</p>
-                </div>
-            </div>
-            <div class="timeline-container right">
-                <div class="timeline-content">
-                    <h3>[11 Eylül 2025]</h3>
-                    <p>İlk buluşmamız... O kadar heyecanlıydım ki ne diyeceğimi bilemiyordum. Ama senin gülüşün bütün heyecanımı alıp götürdü. Seni yakından tanıdıkça kendimi sana daha çok kaptırdığımı farkettim ve sana daha çok alışıp aşık olmuştum.</p>
-                </div>
-            </div>
-            <div class="timeline-container left">
-                <div class="timeline-content">
-                    <h3>[12 Eylül 2025 - Saat 19:16]</h3>
-                    <p>Unutulmaz anımız... Sana bu tarihte ve bu saatte evlenme teklifi etmiştim, o kadar heyecanlıydım ki; teklifi etmeden önce ve ederken, inan bunu hiç bir kelimeyle ifade edemem sadece komik bir anı olarak sana sarılmayı unutmuştum aşkım. Teklifime "EVET" yanıtı verdiğinde dünyanın en mutlu adamı olmuştum o an </p>
-                </div>
+<script>
+  // --- SAAT ---
+  function updateClock() {
+    const now = new Date();
+    const saat = String(now.getHours()).padStart(2, "0");
+    const dakika = String(now.getMinutes()).padStart(2, "0");
+    const saniye = String(now.getSeconds()).padStart(2, "0");
+    document.getElementById("clock").textContent = `${saat}:${dakika}:${saniye}`;
+  }
 
+  // --- TARİH ---
+  function updateDate() {
+    const now = new Date();
+    const gunler = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+    const aylar = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+    const tarih = `${now.getDate()} ${aylar[now.getMonth()]} ${now.getFullYear()} - ${gunler[now.getDay()]}`;
+    document.getElementById("date").textContent = tarih;
+  }
 
+  setInterval(updateClock, 1000);
+  updateClock();
+  updateDate();
 
-</section>
+  // --- HAVA DURUMU ---
+  function getWeather(lat, lon) {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
 
-    <section id="reasons">
-        <h2 class="section-title">Seni Sevmemin Sonsuz Nedeninden Sadece Birkaçı</h2>
-        <div class="reasons-grid">
-            <div class="reason-card">
-                <div class="icon">✨</div>
-                <p>O eşsiz gülüşünle içimi ısıttığın için...</p>
-            </div>
-            <div class="reason-card">
-                <div class="icon">💖</div>
-                <p>En kötü günümde bile bana güç verdiğin için...</p>
-            </div>
-            <div class="reason-card">
-                <div class="icon">🤗</div>
-                <p>Beni herkesten daha iyi anladığın için...</p>
-            </div>
-            <div class="reason-card">
-                <div class="icon">🌌</div>
-                <p>Birlikte hayal kurmanın ne kadar güzel olduğunu bana gösterdiğin için...</p>
-            </div>
-            <div class="reason-card">
-                <div class="icon">😂</div>
-                <p>En saçma şakalarıma bile kahkahalarla güldüğün için...</p>
-            </div>
-            <div class="reason-card">
-                <div class="icon">🌍</div>
-                <p>Sadece varlığınla bile dünyamı güzelleştirdiğin için...</p>
-            </div>
-        </div>
-    </section>
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        const weather = data.current_weather;
+        const temp = weather.temperature;
+        const wind = weather.windspeed;
+        const code = weather.weathercode;
 
-    <section id="gallery">
-        <h2 class="section-title">Anılar Galerimiz</h2>
-        <div class="gallery-grid">
-            <div class="gallery-item"><img src="https://lh7-rt.googleusercontent.com/formsz/AN7BsVAoRqUgfy9RtKOU3JLU5n3VubN93dSz6SaZxgr2-eJVwPb6Aj4LIO-Xx9-vuWILiqbw_eE0ijl99TbDjE-mgAg9kwy1D8BU91syETDKubCYRMW8NlJYuak9bu5KxMR5s_uGhhiDml8unJAt9AOOu0u5AWGkhAxxpRpAqJ_wgy-kJeDvo_rfL25LUBs54nFwmiOt1lpsXxXu6zw=w740?key=oj7s-s6HV0LaWkPQdpqjIA" alt="💜" border="0"></a></div>
-            <div class="gallery-item"><img src="https://lh7-rt.googleusercontent.com/formsz/AN7BsVBlKBZjEO7wSmVSllry2w37CMgneBWgrVX7_pcV_dGmgmb92RW328PTDJ02jBMpnZTLQ-hRMu1HHUEjRZal4eAU4E8XK3OiFwWLuVjw4US37wrEAwrGBug1Ixvv3iAFn1pnOFrqN_WYAzanY8mRW8H6nThS5jCq87i2nMLx6B5IrkIh3x0lvb2HUe8FJihS7ONi0IjUgwsEECFw=w740?key=3USiMsp2FYkD6TRis6ONxA" alt="💜"></div>
-            <div class="gallery-item"><img src="https://lh7-rt.googleusercontent.com/formsz/AN7BsVC5bzFJ5NPoe-Wz-IdgWbTyRfyBGOzqdDxWi5BeDZuhctIFNSw9U4QT14RqAua5k3dIbvAlYu0WPHxbIUUrOajOth1OqSxcdZloYPQgsGWpZM1IqXjV_ckMvzxWDFNMLskWMnEZ_izkw3sF5M4CqftjNC3TUw-7ElClOy6E1flIPcqQkr6IJFuKtSKRc6UFz1t5g1E2miD0-I8=w740?key=CHM6T4TSdV5VELg66-I1KQ" alt="💜"></div>
-            <div class="gallery-item"><img src="https://lh7-rt.googleusercontent.com/formsz/AN7BsVAkneS6AGj1HPQ9cC4yxH1kHPpsM8NrV8PqlqwNFFQSyGHuJEQw5gKRyFP0r9riJU1saGgnN6yOjkQQ9Fe27XhI7NJ64IJSxzoTqrNNC7UJmKuR2mIyFG5lPYqu9VARd7AAEJmSz4mZSTmJIG5hEUzENcaTFqp4b8CYmKrYijZGC_2D8TWKOiKFjdoHMtLO3eiQALVw3RD3pLQk=w740?key=GZh-bjW2qxmJge77iun9Fg" alt="💜"></div>
-            <div class="gallery-item"><img src="https://lh7-rt.googleusercontent.com/formsz/AN7BsVBRAVuqfW7Msm7mYCLOtdFVWA5zaAzszQZst32HJ_6tWLzqTOT5Bk5X9DrYA3SrmgoGZRY3BviG-Le3E2rCavLCyAUy71Zwi2Gs_9W_v2_H3u3A0mncUw7Ozm3O7XTbGZskzlfSuZM-DGrggosh88zq1OH4e8UcXZkZH63HoQAWLNSsHvCAqC3Dfao78bVaF07md4CO2z4bC3pi=w740?key=mizg736Qy0_SZ0Y110Vz3g" alt="Anı 5"></div>
-            <div class="gallery-item"><img src="https://lh7-rt.googleusercontent.com/formsz/AN7BsVCY8KQglMYo3vljpYumvS6d-einAyREAhfOZX_I1HxqYRLRzn_-L_UmvZSV5Ajx2mK43U82GcRaDia2ED6LU8XzvGF99sDLnQemr2gcLOw7YEfcgMJrsJZrKdiA-qrxN3SU0KGB5s9yZb-vBhkrNvu1sQxsx7hJ9Yn3SERIouvfa_PkEKrWi35Bca2phqJn2seCUGV62Wwa-K6k=w740?key=nJC9D6qv1mFHs5BOr944Mg" alt="Anı 6"></div>
-           
-        </div>
-    </section>
-    
-    <section id="song">
-        <h2 class="section-title">Bizim Şarkımız</h2>
-        <div class="music-player">
-            <p style="margin-bottom: 20px;">Bu melodi ne zaman çalsa aklıma sen, gözlerimin önüne en güzel anılarımız geliyor...</p>
-            <<iframe width="940" height="529" src="https://www.youtube.com/embed/kLEPgb1O63A" title="Alper Kul-Seni Sana Sen(sözleri)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-    </section>
+        const durumlar = {
+          0: "☀️ Güneşli",
+          1: "🌤️ Az bulutlu",
+          2: "⛅ Parçalı bulutlu",
+          3: "☁️ Bulutlu",
+          45: "🌫️ Sisli",
+          48: "🌫️ Dumanlı",
+          51: "🌦️ Hafif yağmurlu",
+          61: "🌧️ Yağmurlu",
+          71: "❄️ Karlı",
+          95: "⛈️ Fırtına"
+        };
 
-    <section id="final-message">
-        <h2 class="section-title">Hatunum...</h2>
-        <div class="message-box">
-            <p>Benim Canım Aşkım, Eşsiz Ruh Eşim,
+        const durum = durumlar[code] || "🌈 Güzel bir hava";
+        document.getElementById("weather").innerHTML =
+          `${durum} | 🌡️ ${temp}°C | 💨 ${wind} km/s`;
+      })
+      .catch(() => {
+        document.getElementById("weather").textContent = "Hava durumu alınamadı 🌧️";
+      });
+  }
 
-Bugün, sadece bir doğum gününü değil, seninle geçen her günün kalbimde açtığı eşsiz çiçekleri kutluyorum. Sen dünyaya geldiğin o an, benim hayatımın kaderi yazılmaya başlamış. Yıllar sonra yollarımızın kesişmesi ise evrenin bana sunduğu en görkemli mucize.</p>
-            <p>Sana baktığımda gördüğüm tek şey; Aşk. Öyle bir aşk ki, zamanı durduruyor, nefesimi kesiyor ve bana hayatın tüm anlamını fısıldıyor. Seninle geçen her an, tutkunun en derin, sevginin en saf haliyle yaşanıyor. Benim için sen, sadece bir eş değil; ruhumun aynası, sığınağım ve bitmeyen heyecanımsın.
-
-Senin o güzel kalbinin her çarpışında, hayatımdaki ritmi yeniden buluyorum. O gülüşün... Dünyadaki tüm karanlığı aydınlatmaya yetecek bir ışık huzmesi. O dokunuşun... Tüm fırtınaları dindiren, beni sarsılmaz bir güvenle saran bir liman.</p>
-            <p>Her yeni yaşın, sana bir önceki yıldan daha fazla mutluluk, daha fazla kahkaha ve bizim aşkımızla yazılmış daha nice unutulmaz anılar getirsin. Gözlerine her baktığımda hissettiğim o ilk günkü heyecan, yemin ederim ki sadece artarak büyüyor. Seninle yaşlanmak, seninle her yeni güne uyanmak, benim için tarifi mümkün olmayan bir ayrıcalık.
-
-Sana olan aşkım bir okyanus gibi; derin, sonsuz ve her an dalgalı bir tutkuyla dolu.
-
-İyi ki doğdun, iyi ki benim hayatımın en büyük, en tutkulu aşkı oldun. Seni kelimelerin yetmeyeceği bir güçle ve sonsuz bir aşkla seviyorum ve sana tarifsiz bir aşkla aşığım bitanem.
-
-Doğum günün kutlu olsun, hayatımın harikası 💜💜💜💜💜💜💜💜💜💜💜💜.
-</p>
-            <div class="signature">
-                💜Sonsuz Aşkınla,💜<br>
-
-            </div>
-        </div>
-    </section>
-
-
-    <script>
-        // Mor Kalp Yağmuru Efekti
-        const heartContainer = document.getElementById('heart-container');
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = '💜';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 3 + 7 + 's'; // 7-10 saniye arası
-            heart.style.fontSize = Math.random() * 1.5 + 1 + 'rem'; // 1-2.5rem arası boyut
-            heartContainer.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, 10000);
-        }
-        setInterval(createHeart, 300);
-
-        // Scroll Animasyonu
-        const sections = document.querySelectorAll('section');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        sections.forEach(section => {
-            observer.observe(section);
-        });
-
-    </script>
+  // --- KONUM ALMA ---
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const lat = pos.coords.latitude;
+        const lon = pos.coords.longitude;
+        getWeather(lat, lon);
+      },
+      () => {
+        document.getElementById("weather").textContent = "📍 Konum alınamadı";
+      }
+    );
+  } else {
+    document.getElementById("weather").textContent = "⚠️ Tarayıcın konumu desteklemiyor";
+  }
+</script>
 </body>
 </html>
-
-
-
-
-
-
